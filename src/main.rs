@@ -1,13 +1,13 @@
 #![allow(dead_code, unused_imports, unused_variables)]
 mod game_con;
 use game_con::*;
-use macroquad::{input, prelude::*, rand, window};
+use macroquad::{input, prelude::*, rand, window, audio::load_sound};
 
 #[macroquad::main(conf)]
 async fn main() {
     let mut _score = 0;
     let mut _aspect = 0.0;
-    let mut _contr = GameController::default();
+    let mut _contr = GameController::default(load_sound("sounds/soft-hitclap.wav").await.unwrap());
     loop {
         _aspect = screen_height() / screen_width();
         clear_background(GRAY);

@@ -11,6 +11,7 @@ pub struct GameController {
     size: f32,
     default_size: f32,
     color: Color,
+    hitsound: Sound,
 }
 impl BaseMethods for GameController {
     fn draw(&mut self) {
@@ -35,8 +36,7 @@ impl BaseMethods for GameController {
                     0.0 + self.default_size,
                     window::screen_height() - self.default_size,
                 );
-                let hitsound = self.LoadSound();
-                play_sound_once(hitsound.await);
+                play_sound_once(self.hitsound);
                 self.size = self.default_size;
             }
         }
@@ -49,7 +49,7 @@ impl GameController {
         self.update();
         self.draw();
     }
-    pub fn default() -> GameController {
+    pub fn default(hitsound: Sound) -> GameController {
         GameController {
             transform: Component {
                 x: screen_width() / 2.,
@@ -59,14 +59,11 @@ impl GameController {
             size: 70.0,
             default_size: 70.0,
             color: WHITE,
+            hitsound: hitsound
         }
     }
     fn set_hard_cur(& mut self)
     {
         self.hard_curve = get_time().sin() + get_time() / 2.0 as f64;
-    }
-    async fn LoadSound(& mut self) -> Sound
-    {
-        load_sound("sounds/soft_hitclap.wav").await.unwrap()
     }
 }
