@@ -1,9 +1,8 @@
 #![allow(dead_code, unused_imports, unused_variables, non_snake_case)]
 mod component;
 
-
 use component::*;
-use macroquad::{input, math, prelude::*, rand, window, audio::*};
+use macroquad::{audio::*, input, math, prelude::*, rand, window};
 
 pub struct GameController {
     pub transform: Component,
@@ -16,7 +15,10 @@ pub struct GameController {
 impl BaseMethods for GameController {
     fn draw(&mut self) {
         draw_circle(self.transform.x, self.transform.y, self.size, GOLD);
-        println!("x = {},y = {}, size = {},hard = {}",self.transform.x,self.transform.y,self.size,self.hard_curve);
+        println!(
+            "x = {},y = {}, size = {},hard = {}",
+            self.transform.x, self.transform.y, self.size, self.hard_curve
+        );
     }
     fn update(&mut self) {
         if (input::is_mouse_button_pressed(MouseButton::Left)) {
@@ -40,7 +42,7 @@ impl BaseMethods for GameController {
                 self.size = self.default_size;
             }
         }
-        self.set_hard_cur();
+        self.hardcur_increment();
         self.size -= get_frame_time() * self.hard_curve as f32;
     }
 }
@@ -59,11 +61,10 @@ impl GameController {
             size: 70.0,
             default_size: 70.0,
             color: WHITE,
-            hitsound: hitsound
+            hitsound: hitsound,
         }
     }
-    fn set_hard_cur(& mut self)
-    {
+    fn hardcur_increment(&mut self) {
         self.hard_curve = get_time().sin() + get_time() / 2.0 as f64;
     }
 }
